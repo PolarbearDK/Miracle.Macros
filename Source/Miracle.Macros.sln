@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miracle.Macros", "Miracle.Macros\Miracle.Macros.csproj", "{48D0F49B-C11E-401E-8EBF-5A8BD6285590}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Miracle.Macros.Test", "Miracle.Macros.Test\Miracle.Macros.Test.csproj", "{CEAE32B0-5E7A-496C-B17A-A34345BFA410}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48D0F49B-C11E-401E-8EBF-5A8BD6285590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D0F49B-C11E-401E-8EBF-5A8BD6285590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D0F49B-C11E-401E-8EBF-5A8BD6285590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D0F49B-C11E-401E-8EBF-5A8BD6285590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEAE32B0-5E7A-496C-B17A-A34345BFA410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEAE32B0-5E7A-496C-B17A-A34345BFA410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEAE32B0-5E7A-496C-B17A-A34345BFA410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEAE32B0-5E7A-496C-B17A-A34345BFA410}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
