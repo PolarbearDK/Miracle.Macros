@@ -9,12 +9,10 @@ namespace Miracle.Macros
 	/// <typeparam name="T">Type of data object</typeparam>
 	public class PropertyMacroFragment<T> : FormatMacroFragment<T>
 	{
-		#region Class to encapsualte nested property
-
-		/// <summary>
+	    /// <summary>
 		/// Nested property wrapper
 		/// </summary>
-		protected class NestedProperty
+		private class NestedProperty
 		{
 			private readonly NestedProperty _child;
 			private readonly PropertyInfo _property;
@@ -67,9 +65,7 @@ namespace Miracle.Macros
 			}
 		}
 
-		#endregion
-
-		/// <summary>
+	    /// <summary>
 		/// Reference to nested property
 		/// </summary>
 		private readonly NestedProperty _nestedProperty;
