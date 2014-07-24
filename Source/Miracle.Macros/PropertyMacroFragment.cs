@@ -71,10 +71,15 @@ namespace Miracle.Macros
 		/// </summary>
 	    protected readonly NestedProperty Property;
 
-	    protected PropertyMacroFragment(NestedProperty property, string format)
+        /// <summary>
+        /// Property macro fragment constructor.
+        /// </summary>
+        /// <param name="property">Property on the format "Property.SubPropery.SubSubProperty"...</param>
+        /// <param name="format">Optional composite format specifier</param>
+        protected PropertyMacroFragment(NestedProperty property, string format)
 			: base(format)
 		{
-			this.Property = property;
+			Property = property;
 		}
 
         /// <summary>
@@ -90,10 +95,10 @@ namespace Miracle.Macros
 		/// <summary>
 		/// Static method to create a PropertyMacroFragment
 		/// </summary>
-		/// <param name="property"></param>
-		/// <param name="format"></param>
+        /// <param name="property">Property on the format "Property.SubPropery.SubSubProperty"...</param>
+        /// <param name="format">Optional composite format specifier</param>
 		/// <returns>An initialized PropertymacroFragment, or null if nested property was not found</returns>
-		public static PropertyMacroFragment<T> Factory(string property, string format)
+		public static IMacroFragment<T> Factory(string property, string format)
 		{
             NestedProperty nestedProperty = NestedProperty.Factory(typeof(T), property, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
 			return nestedProperty != null ? new PropertyMacroFragment<T>(nestedProperty, format) : null;

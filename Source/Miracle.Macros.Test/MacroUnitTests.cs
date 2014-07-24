@@ -55,17 +55,20 @@ namespace Miracle.Macros.Test
         }
 
         [Test]
-        public void TestSimpleMacroByExtension()
+        public void TestSimpleMacros()
+        {
+            ExerciseMacro("Hello ${Location", new {Location = "World"}, "Hello ${Location");
+            ExerciseMacro("Hello ${{Location}", new {Location = "World"}, "Hello ${{Location}");
+
+            ExerciseMacro("Hello ${Location}", new {Location = "World"}, "Hello World");
+            ExerciseMacro("Hello ${Location}. How are ${Individual}?", new {Location = "World", Individual = "You"}, "Hello World. How are You?");
+        }
+
+        [Test]
+        public void TestBuildinStaticMacros()
         {
             var dateTime = new DateTime(1963, 11, 22, 12, 30, 0);
             const string sampleString = "iqwuytoiausfiuahsf%&%/%¤¤${asdf}gasdf";
-
-            ExerciseMacro("Hello ${Location", new { Location = "World" }, "Hello ${Location");
-            ExerciseMacro("Hello ${{Location}", new { Location = "World" }, "Hello ${{Location}");
-
-
-            ExerciseMacro("Hello ${Location}", new { Location = "World" }, "Hello World");
-            ExerciseMacro("Hello ${Location}. How are ${Individual}?", new { Location = "World", Individual = "You" }, "Hello World. How are You?");
 
             ExerciseMacro("Hello ${Now}", string.Format("Hello {0}", DateTime.Now));
             ExerciseMacro("Hello ${Now}", new { }, string.Format("Hello {0}", DateTime.Now));
@@ -104,8 +107,8 @@ namespace Miracle.Macros.Test
         {
             ExerciseMacro("Hello ${MyObj.MyProperty}", new { MyObj = new { MyProperty = 42 } }, "Hello 42", CultureInfo.InvariantCulture);
             ExerciseMacro("Hello ${MyObj.MyProperty}", new { MyObj = new { MyProperty = (string)null } }, "Hello ", CultureInfo.InvariantCulture);
-            ExerciseMacro("Hello ${MyData.MyString}", new MyNestedData() {MyData = new MyData() {MyString = "foo"}}, "Hello foo");
-            ExerciseMacro("Hello ${MyData.MyString}", new MyNestedData() {MyData = null}, "Hello ");
+            ExerciseMacro("Hello ${MyData.MyString}", new MyNestedData {MyData = new MyData {MyString = "foo"}}, "Hello foo");
+            ExerciseMacro("Hello ${MyData.MyString}", new MyNestedData {MyData = null}, "Hello ");
         }
 
         [Test]
@@ -146,11 +149,11 @@ namespace Miracle.Macros.Test
         {
             var macro = new CustomMacro<MyData>("Test macro object ${MyString} ${Now}.");
 
-            var actual = macro.Expand(new MyData(){MyString = "foo"});
+            var actual = macro.Expand(new MyData{MyString = "foo"});
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual, Is.EqualTo("Test macro object foo ${Now}."));
 
-            actual = macro.Expand(new MyData() { MyString = "bar" });
+            actual = macro.Expand(new MyData { MyString = "bar" });
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual, Is.EqualTo("Test macro object bar ${Now}."));
         }
@@ -160,13 +163,13 @@ namespace Miracle.Macros.Test
         {
             var macro = new CustomMacro<MyData>("Test custom markers {{MyNumber||000}}.", "{{","}}","||");
 
-            var actual = macro.Expand(new MyData() { MyNumber = 42 });
+            var actual = macro.Expand(new MyData { MyNumber = 42 });
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual, Is.EqualTo("Test custom markers 042."));
 
             macro = new CustomMacro<MyData>("{{MyNumber}} Test custom markers {{MyNumber||0000}}. {{MyString}}", "{{", "}}", "||");
 
-            actual = macro.Expand(new MyData() { MyNumber = 42, MyString = "Hi"});
+            actual = macro.Expand(new MyData { MyNumber = 42, MyString = "Hi"});
             Assert.That(actual, Is.Not.Null);
             Assert.That(actual, Is.EqualTo("42 Test custom markers 0042. Hi"));
         }

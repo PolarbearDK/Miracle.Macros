@@ -46,9 +46,9 @@ namespace Miracle.Macros
 		protected override IMacroFragment<T> FragmentFactory(string propertyPath, string format)
 		{
 		    return PropertyMacroFragment<T>.Factory(propertyPath, format)
-		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(DateTime), propertyPath, format)
-		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(Environment), propertyPath, format)
-		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(Thread), propertyPath, format);
+		           ?? StaticMacroFragment<T>.Factory(typeof(DateTime), propertyPath, format)
+		           ?? StaticMacroFragment<T>.Factory(typeof(Environment), propertyPath, format)
+		           ?? StaticMacroFragment<T>.Factory(typeof(Thread), propertyPath, format);
 		}
 	}
 }

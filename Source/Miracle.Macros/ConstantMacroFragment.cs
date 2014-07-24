@@ -2,32 +2,32 @@ using System;
 
 namespace Miracle.Macros
 {
-	/// <summary>
-	/// A constant macro that doesnt change with data.
-	/// </summary>
-	/// <typeparam name="T">Type of data object</typeparam>
-	public class ConstantMacroFragment<T> : IMacroFragment<T>
-	{
-		private readonly string _value;
+    /// <summary>
+    /// A constant macro that doesnt change with data.
+    /// </summary>
+    /// <typeparam name="T">Type of data object</typeparam>
+    public class ConstantMacroFragment<T> : IMacroFragment<T>
+    {
+        private readonly string _value;
 
-		/// <summary>
-		/// Construct constant macro fragment
-		/// </summary>
-		/// <param name="value">String value of this macro</param>
-		public ConstantMacroFragment(string value)
-		{
-			_value = value;
-		}
+        /// <summary>
+        /// Construct constant macro fragment
+        /// </summary>
+        /// <param name="value">String value of this macro</param>
+        public ConstantMacroFragment(string value)
+        {
+            _value = value;
+        }
 
-	    /// <summary>
-		/// Method to get string representation of macro fragment.
-		/// </summary>
-		/// <param name="data">The object to get any properties from</param>
+        /// <summary>
+        /// Method to get string representation of macro fragment.
+        /// </summary>
+        /// <param name="data">The object to get any properties from</param>
         /// <param name="formatProvider">Format provider used to format value (ignored here)</param>
         /// <returns></returns>
-		public string GetValue(T data, IFormatProvider formatProvider)
-		{
-			return _value;
-		}
-	}
+        public string GetValue(T data, IFormatProvider formatProvider)
+        {
+            return _value;
+        }
+    }
 }
