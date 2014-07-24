@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace Miracle.Macros
 {
@@ -14,21 +15,21 @@ namespace Miracle.Macros
 		/// <summary>
 		/// Construct macro parser using macro String
 		/// </summary>
-		/// <param name="macroString"></param>
-		public Macro(string macroString) :
-			base(macroString)
+		/// <param name="macro"></param>
+		public Macro(string macro) :
+			base(macro)
 		{
 		}
 
 		/// <summary>
 		/// Construct macro parser using macro String and all macro markers.
 		/// </summary>
-		/// <param name="macroString"></param>
+		/// <param name="macro"></param>
 		/// <param name="startMacro"></param>
 		/// <param name="endMacro"></param>
-		/// <param name="macroSeparator"></param>
-		public Macro(string macroString, string startMacro, string endMacro, string macroSeparator) :
-			base(macroString, startMacro, endMacro, macroSeparator)
+		/// <param name="formatSeparator"></param>
+		public Macro(string macro, string startMacro, string endMacro, string formatSeparator) :
+			base(macro, startMacro, endMacro, formatSeparator)
 		{
 		}
 
@@ -37,7 +38,8 @@ namespace Miracle.Macros
 		///   1. instance property on type "T"
 		///   2. static property on System.DateTime type.
         ///   3. static property on System.Environment type.
-		/// </summary>
+        ///   4. static property on System.Thread type.
+        /// </summary>
 		/// <param name="propertyPath">property path</param>
 		/// <param name="format">composite format</param>
 		/// <returns></returns>
@@ -45,7 +47,8 @@ namespace Miracle.Macros
 		{
 		    return PropertyMacroFragment<T>.Factory(propertyPath, format)
 		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(DateTime), propertyPath, format)
-		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(Environment), propertyPath, format);
+		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(Environment), propertyPath, format)
+		           ?? (IMacroFragment<T>) StaticMacroFragment<T>.Factory(typeof(Thread), propertyPath, format);
 		}
 	}
 }

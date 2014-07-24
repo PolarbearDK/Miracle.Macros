@@ -7,37 +7,24 @@ namespace Miracle.Macros
 	/// Get dynamic property from static object
 	/// </summary>
 	/// <typeparam name="T">Type of data object</typeparam>
-	public class StaticMacroFragment<T> : FormatMacroFragment<T>
+    public class StaticMacroFragment<T> : PropertyMacroFragment<T>
 	{
-		private readonly PropertyInfo _propertyInfo;
+	    protected StaticMacroFragment(NestedProperty property, string format) 
+            : base(property, format)
+	    {
+	    }
 
-		private StaticMacroFragment(PropertyInfo propertyInfo, string format)
-			: base(format)
-		{
-			_propertyInfo = propertyInfo;
-		}
-
-        /// <summary>
-        /// Get raw un-formatted value of macro fragment.
-        /// </summary>
-        /// <param name="data">The data object to optionally get data from</param>
-        /// <returns>formatted value</returns>
-        protected override object GetRawValue(T data)
-        {
-            return _propertyInfo.GetValue(null, null);
-        }
-        
 	    /// <summary>
 	    /// Factory method to get macro fragment
 	    /// </summary>
 	    /// <param name="staticTypeSource">type that exposes static property</param>
-        /// <param name="staticPropertyName">name of object property</param>
+        /// <param name="staticProperty">name or nested name of object property</param>
 	    /// <param name="format"> </param>
 	    /// <returns></returns>
-	    public static StaticMacroFragment<T> Factory(Type staticTypeSource, string staticPropertyName, string format)
+	    public static StaticMacroFragment<T> Factory(Type staticTypeSource, string staticProperty, string format)
 		{
-			PropertyInfo info = staticTypeSource.GetProperty(staticPropertyName, BindingFlags.Static | BindingFlags.Public);
-			return info != null ? new StaticMacroFragment<T>(info, format) : null;
+            NestedProperty nestedProperty = NestedProperty.Factory(staticTypeSource, staticProperty, BindingFlags.Static | BindingFlags.Public);
+            return nestedProperty != null ? new StaticMacroFragment<T>(nestedProperty, format) : null;
 		}
 	}
 }

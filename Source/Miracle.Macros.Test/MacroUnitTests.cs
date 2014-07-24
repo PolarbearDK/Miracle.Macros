@@ -7,13 +7,13 @@ namespace Miracle.Macros.Test
 {
     internal class CustomMacro<T> : GenericMacro<T>
     {
-        public CustomMacro(string macroString) :
-            base(macroString)
+        public CustomMacro(string macro) :
+            base(macro)
         {
         }
 
-        public CustomMacro(string macroString, string startMacro, string endMacro, string macroSeparator) 
-            : base(macroString, startMacro, endMacro, macroSeparator)
+        public CustomMacro(string macro, string startMacro, string endMacro, string formatSeparator) 
+            : base(macro, startMacro, endMacro, formatSeparator)
         {
         }
 
@@ -38,6 +38,14 @@ namespace Miracle.Macros.Test
     [TestFixture]
     public class MacroUnitTests
     {
+        private void ExerciseMacro(string macro, string expected, IFormatProvider formatProvider = null)
+        {
+            var actual = macro.ExpandMacros(formatProvider);
+
+            Assert.That(actual, Is.Not.Null);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
         private void ExerciseMacro<T>(string macro, T data, string expected, IFormatProvider formatProvider = null)
         {
             var actual = macro.ExpandMacros(data, formatProvider);
@@ -59,11 +67,17 @@ namespace Miracle.Macros.Test
             ExerciseMacro("Hello ${Location}", new { Location = "World" }, "Hello World");
             ExerciseMacro("Hello ${Location}. How are ${Individual}?", new { Location = "World", Individual = "You" }, "Hello World. How are You?");
 
+            ExerciseMacro("Hello ${Now}", string.Format("Hello {0}", DateTime.Now));
             ExerciseMacro("Hello ${Now}", new { }, string.Format("Hello {0}", DateTime.Now));
             ExerciseMacro("Hello ${Now}", new { Now = dateTime }, string.Format("Hello {0}", dateTime));
 
+            ExerciseMacro("${MachineName}", Environment.MachineName);
             ExerciseMacro("${MachineName}", new { }, Environment.MachineName);
             ExerciseMacro("${MachineName}", new { MachineName = sampleString }, sampleString);
+
+            ExerciseMacro("${CurrentThread.ManagedThreadId}", Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture));
+            ExerciseMacro("${CurrentThread.ManagedThreadId}", new { }, Thread.CurrentThread.ManagedThreadId.ToString(CultureInfo.InvariantCulture));
+            ExerciseMacro("${CurrentThread.ManagedThreadId}", new { CurrentThread = new { ManagedThreadId = sampleString} }, sampleString);
         }
 
         [Test]

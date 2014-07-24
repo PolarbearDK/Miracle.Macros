@@ -12,24 +12,24 @@ namespace Miracle.Macros
 	    /// <summary>
 		/// Nested property wrapper
 		/// </summary>
-		private class NestedProperty
+	    protected class NestedProperty
 		{
 			private readonly NestedProperty _child;
 			private readonly PropertyInfo _property;
 
-			private NestedProperty(Type type, string property)
+            private NestedProperty(Type type, string property, BindingFlags bindingFlags)
 			{
 				int dotPos = property.IndexOf('.');
 
 				if (dotPos == -1)
 				{
-					_property = type.GetProperty(property);
+					_property = type.GetProperty(property, bindingFlags);
 				}
 				else
 				{
-					_property = type.GetProperty(property.Substring(0, dotPos));
+					_property = type.GetProperty(property.Substring(0, dotPos), bindingFlags);
 					if (_property != null)
-						_child = new NestedProperty(_property.PropertyType, property.Substring(dotPos + 1));
+						_child = new NestedProperty(_property.PropertyType, property.Substring(dotPos + 1), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
 				}
 			}
 
@@ -50,15 +50,16 @@ namespace Miracle.Macros
 				return _child != null ? _child.GetValue(obj) : obj;
 			}
 
-			/// <summary>
-			/// Create a nested property wrapper
-			/// </summary>
-			/// <param name="type">Type of object at this level</param>
-			/// <param name="property">Property on the format "Property.SubPropery.SubSubProperty"...</param>
-			/// <returns>Value of property</returns>
-			public static NestedProperty Factory(Type type, string property)
+	        /// <summary>
+	        /// Create a nested property wrapper
+	        /// </summary>
+	        /// <param name="type">Type of object at this level</param>
+	        /// <param name="property">Property on the format "Property.SubPropery.SubSubProperty"...</param>
+            /// <param name="bindingFlags">A bitmask comprised of one or more System.Reflection.BindingFlags that specify how the property search is conducted.</param>
+	        /// <returns>Value of property</returns>
+	        public static NestedProperty Factory(Type type, string property, BindingFlags bindingFlags)
 			{
-				var getter = new NestedProperty(type, property);
+				var getter = new NestedProperty(type, property, bindingFlags);
 				return getter.IsValid
 				       	? getter
 				       	: null;
@@ -68,12 +69,12 @@ namespace Miracle.Macros
 	    /// <summary>
 		/// Reference to nested property
 		/// </summary>
-		private readonly NestedProperty _nestedProperty;
+	    protected readonly NestedProperty Property;
 
-		private PropertyMacroFragment(NestedProperty nestedProperty, string format)
+	    protected PropertyMacroFragment(NestedProperty property, string format)
 			: base(format)
 		{
-			_nestedProperty = nestedProperty;
+			this.Property = property;
 		}
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace Miracle.Macros
         /// <returns>formatted value</returns>
         protected override object GetRawValue(T data)
 		{
-			return _nestedProperty.GetValue(data);
+			return Property.GetValue(data);
 		}
 
 		/// <summary>
@@ -94,7 +95,7 @@ namespace Miracle.Macros
 		/// <returns>An initialized PropertymacroFragment, or null if nested property was not found</returns>
 		public static PropertyMacroFragment<T> Factory(string property, string format)
 		{
-			NestedProperty nestedProperty = NestedProperty.Factory(typeof (T), property);
+            NestedProperty nestedProperty = NestedProperty.Factory(typeof(T), property, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
 			return nestedProperty != null ? new PropertyMacroFragment<T>(nestedProperty, format) : null;
 		}
 	}

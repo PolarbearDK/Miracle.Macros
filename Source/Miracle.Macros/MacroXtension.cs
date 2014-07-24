@@ -4,7 +4,8 @@ using System.Reflection;
 namespace Miracle.Macros
 {
 	/// <summary>
-	/// Static class for macro extension
+	/// Static class for macro extensions
+	/// Note! If macro is used several times, then use Macro class to parse onse, and call expand several times.
 	/// </summary>
 	public static class MacroXtension
 	{
