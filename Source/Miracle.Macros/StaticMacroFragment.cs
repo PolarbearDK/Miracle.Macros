@@ -14,7 +14,7 @@ namespace Miracle.Macros
 		private StaticMacroFragment(PropertyInfo propertyInfo, string format)
 			: base(format)
 		{
-			this._propertyInfo = propertyInfo;
+			_propertyInfo = propertyInfo;
 		}
 
         /// <summary>
