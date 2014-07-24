@@ -19,8 +19,6 @@ namespace Miracle.Macros
 			_format = format;
 		}
 
-		#region IMacroFragment Members
-
 	    /// <summary>
 	    /// Method to get formatted string representation of macro.
 	    /// </summary>
@@ -39,8 +37,6 @@ namespace Miracle.Macros
 
             return null;
         }
-
-	    #endregion
 
 	    /// <summary>
 	    /// Get raw un-formatted value of macro fragment.

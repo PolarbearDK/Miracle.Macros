@@ -19,9 +19,7 @@ namespace Miracle.Macros
 			_value = value;
 		}
 
-		#region IMacroFragment Members
-
-		/// <summary>
+	    /// <summary>
 		/// Method to get string representation of macro fragment.
 		/// </summary>
 		/// <param name="obj">The object to get any properties from</param>
@@ -31,7 +29,5 @@ namespace Miracle.Macros
 		{
 			return _value;
 		}
-
-		#endregion
 	}
 }
