@@ -22,10 +22,10 @@ namespace Miracle.Macros
 	    /// <summary>
 		/// Method to get string representation of macro fragment.
 		/// </summary>
-		/// <param name="obj">The object to get any properties from</param>
+		/// <param name="data">The object to get any properties from</param>
         /// <param name="formatProvider">Format provider used to format value (ignored here)</param>
         /// <returns></returns>
-		public string GetValue(T obj, IFormatProvider formatProvider)
+		public string GetValue(T data, IFormatProvider formatProvider)
 		{
 			return _value;
 		}
