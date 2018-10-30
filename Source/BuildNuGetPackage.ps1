@@ -16,5 +16,5 @@ if($pack) {
 if($push) {
 	$filename = Get-ChildItem ".\Miracle.Macros\bin\Release\Miracle.Macros.*" | Sort-Object LastWriteTime -Descending | Select -First 1
 	echo "Pushing $filename"
-	& .NuGet\NuGet.exe push "$filename" -Source https://api.nuget.org/v3/index.json
+	& ../.NuGet\NuGet.exe push "$filename" -Source https://api.nuget.org/v3/index.json
 }
